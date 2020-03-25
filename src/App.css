@@ -99,6 +99,11 @@ textarea {
 li {
     list-style: none;
     /* line-height: 1; */
+    width: 400px; 
+}
+
+.customProblem {
+    word-wrap: break-word; 
 }
 
 input[type=checkbox] {
@@ -108,8 +113,32 @@ input[type=checkbox] {
    
 }
 
-
 .checked {
     height: 15px;
     width: 15px;
+}
+
+.btnPDF {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    color: white;
+    font-weight: 600;
+    border-radius: 10px;
+    background: #FF416C;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #FF4B2B, #FF416C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.btnPDF:hover {
+    cursor: pointer;
+}
+
+.btnPDF:focus {
+    outline: none;
+}
+
+.completeModel {
+    margin-bottom: 55px;
 }

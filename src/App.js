@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 function App() {
 
@@ -59,10 +61,22 @@ function App() {
   const generateDeclaration = () => {
     document.getElementById('formModel').classList.add('hide');
     document.getElementById('completeModel').classList.remove('hide');
+    document.getElementById('getPDF').classList.remove('hide');
+  }
+
+  const convert2PDF = () => {
+      html2canvas(document.getElementById('completeModel')).then(function(canvas) {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      pdf.addImage(imgData, 'PNG', -150, 15 );
+      pdf.save("declaratie.pdf");  
+  });
   }
 
   return (
     <>
+    <button id="getPDF" className="btnPDF hide" onClick={() => convert2PDF()}>Salveaza PDF</button>
+    <br/>
     <div className="form" id="formModel">
         <h3>Declaraţie pe proprie răspundere</h3>
         <p id="first">
@@ -147,46 +161,46 @@ function App() {
       <span id="first1" style={{display:'inline-block'}}>  
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cunoscând prevederile articolului 326, referitoare la falsul în declarații<sup>2</sup>, precum și ale art. 352 referitoare la zădărnicirea combaterii bolilor din Noul Cod Penal, declar pe  proprie răspundere faptul că mă deplasez în interes profesional/personal, între orele <strong>{hour1} - {hour2}</strong>, de la <strong> {loc1} </strong> , până la <strong> {loc2} </strong>, pentru<sup>3</sup>:
       </span>
-      <ul style={{textAlign:'left'}}>
+      <ul style={{textAlign:'left', width: '400px'}}>
           <li>
           &nbsp;&nbsp;&nbsp;
             {
-              c1 ? (<img src={require('./img/tick.svg')} className="checked"/>) :  (<img src={require('./img/error.svg')} className="checked"/>)
+              c1 ? (<img src={require('./img/tick.png')} className="checked"/>) :  (<img src={require('./img/cancel.png')} className="checked"/>)
             }&nbsp;
             deplasarea între domiciliu și locul de muncă, atunci când activitatea profesională este esențială și nu poate fi organizată sub formă de lucru la distanță sau deplasarea în interes profesional care nu poate fi amânată. 
           </li>
           <br/>
           <li>&nbsp;&nbsp;&nbsp;
             {
-              c2 ? (<img src={require('./img/tick.svg')} className="checked"/>) :  (<img src={require('./img/error.svg')} className="checked"/>)
+              c2 ? (<img src={require('./img/tick.png')} className="checked"/>) :  (<img src={require('./img/cancel.png')} className="checked"/>)
             }&nbsp;
             consult medical de specialitate care nu poate fi amânat; </li><br/>
           <li>&nbsp;&nbsp;&nbsp;
             {
-              c3 ? (<img src={require('./img/tick.svg')} className="checked"/>) :  (<img src={require('./img/error.svg')} className="checked"/>)
+              c3 ? (<img src={require('./img/tick.png')} className="checked"/>) :  (<img src={require('./img/cancel.png')} className="checked"/>)
             }&nbsp;
             deplasare pentru cumpărături de primă necesitate la unități comerciale din zona de domiciliu;</li><br/>
           <li>&nbsp;&nbsp;&nbsp;
             {
-              c4 ? (<img src={require('./img/tick.svg')} className="checked"/>) :  (<img src={require('./img/error.svg')} className="checked"/>)
+              c4 ? (<img src={require('./img/tick.png')} className="checked"/>) :  (<img src={require('./img/cancel.png')} className="checked"/>)
             }&nbsp;
             
             deplasare pentru asigurarea asistenței pentru persoane în vârstă, vulnerabile sau pentru însoțirea copiilor; </li><br/>
           <li>&nbsp;&nbsp;&nbsp;
             {
-              c5 ? (<img src={require('./img/tick.svg')} className="checked"/>) :  (<img src={require('./img/error.svg')} className="checked"/>)
+              c5 ? (<img src={require('./img/tick.png')} className="checked"/>) :  (<img src={require('./img/cancel.png')} className="checked"/>)
             }&nbsp;
             
             deplasare scurtă, lângă domiciliu, pentru desfășurarea de activități fizice individuale, în aer liber, cu excluderea oricărei forme de activitate sportivă colectivă; </li><br/>
           <li>&nbsp;&nbsp;&nbsp;
             {
-              c6 ? (<img src={require('./img/tick.svg')} className="checked"/>) :  (<img src={require('./img/error.svg')} className="checked"/>)
+              c6 ? (<img src={require('./img/tick.png')} className="checked"/>) :  (<img src={require('./img/cancel.png')} className="checked"/>)
             }&nbsp;deplasare scurtă, lângă domiciliu, legată de nevoile animalelor de companie </li><br/>
-          <li>&nbsp;&nbsp;&nbsp;
+          <li><div>&nbsp;&nbsp;&nbsp;
             {
-              c7 ? (<img src={require('./img/tick.svg')} className="checked"/>) :  (<img src={require('./img/error.svg')} className="checked"/>)
+              c7 ? (<img src={require('./img/tick.png')} className="checked"/>) :  (<img src={require('./img/cancel.png')} className="checked"/>)
             }&nbsp;
-            deplasare pentru rezolvarea următoarei situații urgente: <strong>{prob}</strong> </li>
+            deplasare pentru rezolvarea următoarei situații urgente: <br/><strong className="customProblem">{prob}</strong> </div> </li>
         </ul>
         <div style={{marginTop:'20px'}}>
           <span style={{textAlign: 'left',display:'inline-block', width: '400px'}}>&nbsp;&nbsp;&nbsp;&nbsp;Atât declar, susțin și semnez.</span>
@@ -197,14 +211,15 @@ function App() {
           <span  style={{textAlign: 'right',display:'inline-block', width: '200px'}}>Semnătura, {signature}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         </div>
           <hr style={{width: '400px', margin: '10px auto auto auto'}}/>
-          <span style={{fontSize: '8px',display:'inline-block', width: '400px', textAlign: 'left'}}>
+          <span style={{fontSize: '12px',display:'inline-block', width: '400px', textAlign: 'left'}}>
           <sup>1</sup> Se declară situația în care persoana nu locuiește la domiciliul prevăzut în actul de identitate. 
           <br/>
           <sup>2</sup> Declararea necorespunzătoare a adevărului, făcută unei persoane dintre cele prevăzute în art. 175 sau unei unităţi în care aceasta îşi desfăşoară activitatea în vederea producerii unei consecinţe juridice, pentru sine sau pentru altul, atunci când, potrivit legii ori împrejurărilor, declaraţia făcută serveşte la producerea acelei consecinţe, se pedepseşte cu închisoare de la 3 luni la 2 ani sau cu amendă. 
           <br/>
           <sup>3</sup> Se completează motivul/cauzele deplasării. 
-    
           </span>
+          <br/>
+          <br/>
     </div>
     </>
   );
